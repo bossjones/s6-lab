@@ -104,13 +104,14 @@ foreground {
     backtick -n logname { redirfd -w 2 /dev/null id -un }
     importas -u logname logname
     importas -D $logname LOGNAME LOGNAME
+    s6-echo " [multisub_and_export] LOGNAME:${LOGNAME}"
 
     # multisubstitute {
     #     importas LOGNAME LOGNAME
     # }
 
-    foreground { s6-echo " [multisub_and_export] LOGNAME:${LOGNAME}" }
 }
+foreground { s6-echo " [multisub_and_export] LOGNAME:${LOGNAME}" }
 
 # THINGS TO WORK INTO THIS SCRIPT
 # outdir=${1:-${XDG_RUNTIME_DIR}/env}
