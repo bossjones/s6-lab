@@ -39,6 +39,8 @@ backtick -n defaulthome
     # -u : Unexport. envvar will be removed from the environment after the substitution. importas -u variable envvar is equivalent to importas variable envvar unexport envvar.
     # Other options are used to control the substitution mechanism.
     importas -u defaultuser defaultuser
+    # NOTE: by setting defaultuser to string defaultuser, it temprarily w/ defaultuser -> $defaultuser,
+    # that's what allows us to use variable substituation w/ importas on these lines
     importas -D $defaultuser USER USER
     redirfd -w 2 /dev/null
     homeof ${USER}
@@ -99,13 +101,13 @@ foreground {
     # neither of those options: the value of variable is set to whatever the start of prog1...'s output is, up to the first null character, or to whatever prog1... wrote before crashing; then execution proceeds.
 
     # SET LOGNAME IF NOT DEFINED
-    backtick -n LOGNAME
-    {
-        redirfd -w 2 /dev/null id -un
-    }
-    multisubstitute {
-        importas LOGNAME LOGNAME
-    }
+    backtick -n logname { redirfd -w 2 /dev/null id -un }
+    importas -u logname logname
+    importas -D $logname LOGNAME LOGNAME
+
+    # multisubstitute {
+    #     importas LOGNAME LOGNAME
+    # }
 
     foreground { s6-echo " [multisub_and_export] LOGNAME:${LOGNAME}" }
 }
