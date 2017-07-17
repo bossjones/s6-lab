@@ -1,0 +1,18 @@
+#!/usr/bin/execlineb -S0
+
+# SET LOGNAME IF NOT DEFINED
+backtick -n logname { redirfd -w 2 /dev/null id -un }
+# NOTE: by setting logname to string logname, it temprarily w/ logname -> $logname,
+# that's what allows us to use variable substituation w/ importas on these lines
+importas -u logname logname
+importas -D $logname LOGNAME LOGNAME
+
+foreground { s6-echo " [backtick_id_echo] LOGNAME:${LOGNAME}" }
+
+
+# d478bc28d79d:~/s6-lab/execlineb/scripts/substituation_scripts# ./backtick_id_echo
+#  [backtick_id_echo] defaultuser:${defaultuser}
+#  [backtick_id_echo] defaulthome:/home/pi
+#  [backtick_id_echo] HOME:/home/pi
+#  [backtick_id_echo] LOGNAME:root
+# export: usage: export variable value prog...

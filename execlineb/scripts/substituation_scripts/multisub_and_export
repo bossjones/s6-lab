@@ -50,7 +50,6 @@ backtick -n defaulthome
 importas -u defaulthome defaulthome
 importas -D $defaulthome HOME HOME
 
-foreground { s6-echo " [multisub_and_export] defaultuser:${defaultuser}" }
 foreground { s6-echo " [multisub_and_export] defaulthome:${defaulthome}" }
 foreground { s6-echo " [multisub_and_export] HOME:${HOME}" }
 # ${HOME}/.execline-shell $@
