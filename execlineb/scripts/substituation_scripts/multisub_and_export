@@ -1,0 +1,11 @@
+#!/usr/bin/execlineb -S0
+
+multisubstitute
+{
+  importas -i HOME HOME
+  importas -i LOGNAME LOGNAME
+}
+export PATH "/bin"
+export USER $LOGNAME
+# export SHELL /etc/execline-shell
+export SHELL /bin/bash
