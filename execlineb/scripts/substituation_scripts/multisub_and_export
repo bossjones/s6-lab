@@ -9,17 +9,19 @@
 #        ...
 #      }
 #      prog...
-multisubstitute
-{
-  # NOTE: importas program
-  # importas [ -i | -D default ] [ -u ] [ -s ] [ -C | -c ] [ -n ] [ -d delim ] variable envvar prog...
-  # D default : If this option is given and envvar is undefined, substitute default for the value of variable instead of no word. For instance, to substitute the empty word, use -D "".
-  # -i : Insist. If envvar is undefined, importas will not do anything; instead, it will exit 100 with an error message. This has precedence over any -D option.
-  # -u : Unexport. envvar will be removed from the environment after the substitution. importas -u variable envvar is equivalent to importas variable envvar unexport envvar.
-  # Other options are used to control the substitution mechanism.
-  importas -i HOME HOME
-  importas -i LOGNAME LOGNAME
-}
+
+# FIXME: note, with -i, this will fail when undefined. Lets try to set it automatically instead
+# multisubstitute
+# {
+#   # NOTE: importas program
+#   # importas [ -i | -D default ] [ -u ] [ -s ] [ -C | -c ] [ -n ] [ -d delim ] variable envvar prog...
+#   # D default : If this option is given and envvar is undefined, substitute default for the value of variable instead of no word. For instance, to substitute the empty word, use -D "".
+#   # -i : Insist. If envvar is undefined, importas will not do anything; instead, it will exit 100 with an error message. This has precedence over any -D option.
+#   # -u : Unexport. envvar will be removed from the environment after the substitution. importas -u variable envvar is equivalent to importas variable envvar unexport envvar.
+#   # Other options are used to control the substitution mechanism.
+#   importas -i HOME HOME
+#   importas -i LOGNAME LOGNAME
+# }
 
 # NOTE: export program
 # export var value prog...
