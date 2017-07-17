@@ -1,0 +1,19 @@
+#!/usr/bin/execlineb -S0
+
+backtick -n defaulthome
+{
+  if -nt
+  {
+    backtick -n defaultuser { id -un }
+    importas -u defaultuser defaultuser
+    importas -D $defaultuser USER USER
+    redirfd -w 2 /dev/null
+    homeof ${USER}
+  }
+  s6-echo /
+}
+importas -u defaulthome defaulthome
+importas -D $defaulthome HOME HOME
+
+
+foreground { s6-echo " [get_home_envvar] HOME:${HOME}" }
