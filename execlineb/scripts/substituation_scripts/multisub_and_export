@@ -90,27 +90,24 @@ foreground { s6-echo " [multisub_and_export] HOME:${HOME}" }
 
 export PATH "/bin"
 
-foreground {
-    # NOTE: backtick program
-    # backtick runs a program and stores its output in an environment variable, then executes another program.
-    # backtick [ -i | -I | -D default ] [ -n ] variable { prog1... } prog2...
-    # -n : chomp an ending newline off prog1...'s output.
-    # -i : backtick exits 1.
-    # -I : variable is removed from the environment, and execution proceeds.
-    # -D default : the value of variable is set to default, and execution proceeds.
-    # neither of those options: the value of variable is set to whatever the start of prog1...'s output is, up to the first null character, or to whatever prog1... wrote before crashing; then execution proceeds.
+# NOTE: backtick program
+# backtick runs a program and stores its output in an environment variable, then executes another program.
+# backtick [ -i | -I | -D default ] [ -n ] variable { prog1... } prog2...
+# -n : chomp an ending newline off prog1...'s output.
+# -i : backtick exits 1.
+# -I : variable is removed from the environment, and execution proceeds.
+# -D default : the value of variable is set to default, and execution proceeds.
+# neither of those options: the value of variable is set to whatever the start of prog1...'s output is, up to the first null character, or to whatever prog1... wrote before crashing; then execution proceeds.
 
-    # SET LOGNAME IF NOT DEFINED
-    backtick -n logname { redirfd -w 2 /dev/null id -un }
-    importas -u logname logname
-    importas -D $logname LOGNAME LOGNAME
-    s6-echo " [multisub_and_export] LOGNAME:${LOGNAME}"
+# SET LOGNAME IF NOT DEFINED
+backtick -n logname { redirfd -w 2 /dev/null id -un }
+importas -u logname logname
+importas -D $logname LOGNAME LOGNAME
 
-    # multisubstitute {
-    #     importas LOGNAME LOGNAME
-    # }
+# multisubstitute {
+#     importas LOGNAME LOGNAME
+# }
 
-}
 foreground { s6-echo " [multisub_and_export] LOGNAME:${LOGNAME}" }
 
 # THINGS TO WORK INTO THIS SCRIPT
