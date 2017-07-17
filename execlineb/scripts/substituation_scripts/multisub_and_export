@@ -1,5 +1,7 @@
 #!/usr/bin/execlineb -S0
 
+
+foreground { s6-echo " [run] env before multisubstitute" } s6-env
 # NOTE: multisubstitute program [ help output is only a subset of full options ]
 #  multisubstitute performs several substitutions at once in its argv, then executes another program.
 #  multisubstitute
