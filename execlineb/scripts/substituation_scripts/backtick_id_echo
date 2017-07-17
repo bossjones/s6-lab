@@ -9,10 +9,5 @@ importas -D $logname LOGNAME LOGNAME
 
 foreground { s6-echo " [backtick_id_echo] LOGNAME:${LOGNAME}" }
 
-
 # d478bc28d79d:~/s6-lab/execlineb/scripts/substituation_scripts# ./backtick_id_echo
-#  [backtick_id_echo] defaultuser:${defaultuser}
-#  [backtick_id_echo] defaulthome:/home/pi
-#  [backtick_id_echo] HOME:/home/pi
 #  [backtick_id_echo] LOGNAME:root
-# export: usage: export variable value prog...
