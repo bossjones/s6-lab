@@ -88,7 +88,9 @@ foreground { s6-echo " [multisub_and_export] HOME:${HOME}" }
 # var must be given without a dollar !
 # var must not contain the character = .
 
-export PATH "/bin"
+# export PATH "/bin"
+
+importas -D "/bin" PATH PATH
 
 # NOTE: backtick program
 # backtick runs a program and stores its output in an environment variable, then executes another program.
