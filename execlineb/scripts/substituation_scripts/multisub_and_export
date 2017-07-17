@@ -1,7 +1,59 @@
 #!/usr/bin/execlineb -S0
 
 
-foreground { s6-echo " [run] env before multisubstitute" } s6-env
+##############################[lh-bootstrap begin]###############################################
+
+# NOTE: backtick program
+# backtick runs a program and stores its output in an environment variable, then executes another program.
+# backtick [ -i | -I | -D default ] [ -n ] variable { prog1... } prog2...
+# -n : chomp an ending newline off prog1...'s output.
+# -i : backtick exits 1.
+# -I : variable is removed from the environment, and execution proceeds.
+# -D default : the value of variable is set to default, and execution proceeds.
+# neither of those options: the value of variable is set to whatever the start of prog1...'s output is, up to the first null character, or to whatever prog1... wrote before crashing; then execution proceeds.
+backtick -n defaulthome
+{
+  #################################################################################
+  # NOTE: if program
+  # if [ -X ] [ -n ] [ -t | -x exitcode ] { prog1... } prog2...
+  # if performs conditional execution.
+  # if reads prog1... in a block. It forks and executes it, then waits for it to complete.
+  # If prog1 crashes, if prints an error message then exits 128 plus the number of the signal that killed prog1.
+  # If prog1 exits a non-zero status, if exits 1.
+  # Else if execs into prog2.
+  # Options
+  # -X : treat a crash of prog1 as a non-zero ("false") exit.
+  # -n : negate the test (exit on true, exec into prog2 on false)
+  # -x exitcode : exit exitcode instead of 1 if the test fails.
+  # -t : exit 0 instead of 1 if the test fails. This is equivalent to -x 0.
+  #################################################################################
+  # exec into prog2 on false due to -n
+  # exit 0 instead of 1 if test fails due to -t
+  if -nt
+  {
+    backtick -n defaultuser { id -un }
+    # NOTE: importas program
+    # importas [ -i | -D default ] [ -u ] [ -s ] [ -C | -c ] [ -n ] [ -d delim ] variable envvar prog...
+    # D default : If this option is given and envvar is undefined, substitute default for the value of variable instead of no word. For instance, to substitute the empty word, use -D "".
+    # -i : Insist. If envvar is undefined, importas will not do anything; instead, it will exit 100 with an error message. This has precedence over any -D option.
+    # -u : Unexport. envvar will be removed from the environment after the substitution. importas -u variable envvar is equivalent to importas variable envvar unexport envvar.
+    # Other options are used to control the substitution mechanism.
+    importas -u defaultuser defaultuser
+    importas -D $defaultuser USER USER
+    redirfd -w 2 /dev/null
+    homeof ${USER}
+  }
+  s6-echo /
+}
+importas -u defaulthome defaulthome
+importas -D $defaulthome HOME HOME
+
+foreground { s6-echo " [multisub_and_export] defaulthome:${defaulthome}" }
+foreground { s6-echo " [multisub_and_export] HOME:${HOME}" }
+# ${HOME}/.execline-shell $@
+
+####################################[lh-bootstrap END]#############################################
+
 # NOTE: multisubstitute program [ help output is only a subset of full options ]
 #  multisubstitute performs several substitutions at once in its argv, then executes another program.
 #  multisubstitute
